@@ -3,12 +3,12 @@
 
 #change the following to "false" to disable changing the default server name and motd
 setserver="true"
-#change the following to "false" to disable updating of server jars and website
-syncweb="true"
+#change the following to "false" to disable updating of server jars and website ProtocolLib is needed for disguise
+syncweb="false"
 syncjars="true"
 #server name and motd -- DO NOT USE BACKTICKS (`) within it!! -- stuff WONT work if you DO!! ALSO do not use "${anything}" UNLESS YOU KNOW WHAT YOU ARE DOING!!
-srvname="Your Minecraft Server"
-srvmotd="Minecraft Server"
+srvname="Refresh SMP 5"
+srvmotd="Refresh SMP"
 
 
 #DANGER!! setting the following to "true" will redownload the bukkit server! only change if you know what you are doing!
@@ -27,7 +27,7 @@ pkill nginx
 rm -rf /tmp/*
 
 if [ ! -f "updated.yet" ]; then
-  syncweb="true"
+  syncweb="false"
   syncjars="true"
 fi
 
@@ -75,7 +75,8 @@ else
       rm -rf java/bungee_command/*
       cp -r /tmp/new/java/bungee_command/. ./java/bungee_command/
       echo ensuring that bungeecord is hosting on the correct port...
-      sed -i 's/host: 0\.0\.0\.0:[0-9]\+/host: 0.0.0.0:1/' java/bungee_command/config.yml
+      sed -i 's/host: 0\.0\.0\.0:[0-9]\+/host: 127.0.0.1:1/' java/bungee_command/config.yml
+      sed -i 's/^server-ip=$/server-ip=127.0.0.1/' java/bukkit_command/server.properties
     fi
     echo updating bukkit server...
     if [ "$emergbukkit" = "true" ]; then
